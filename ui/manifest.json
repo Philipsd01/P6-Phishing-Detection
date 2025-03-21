@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Gmail Email Safety Checker",
+    "version": "1.0",
+    "description": "Detects phishing and spam emails in Gmail.",
+    "permissions": ["activeTab", "storage", "scripting"],
+    "host_permissions": ["https://mail.google.com/"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://mail.google.com/*"],
+        "js": ["content.js"]
+      }
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "icon.png"
+    }
+  }
+  
