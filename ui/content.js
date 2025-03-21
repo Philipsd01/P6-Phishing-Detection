@@ -1,44 +1,57 @@
-function addWarningBanner(riskLevel, message) {
-    const emailContainer = document.querySelector("div.adn.ads"); // Finds email body in Gmail
-    if (!emailContainer) return;
-
-    const existingBanner = document.getElementById("email-warning-banner");
-    if (existingBanner) return; // Avoid duplicate banners
-
-    const banner = document.createElement("div");
-    banner.id = "email-warning-banner";
-    banner.textContent = message;
-    banner.style.position = "relative";
-    banner.style.padding = "10px";
-    banner.style.borderRadius = "5px";
-    banner.style.marginBottom = "10px";
-    banner.style.color = "#fff";
-    banner.style.fontWeight = "bold";
-    banner.style.textAlign = "center";
-
-    if (riskLevel === "high") {
-        banner.style.backgroundColor = "red";
-    } else if (riskLevel === "medium") {
-        banner.style.backgroundColor = "orange";
-    } else {
-        banner.style.backgroundColor = "green";
+function createSidebar(riskLevel, message, details = []) {
+    if (document.getElementById("email-risk-sidebar")) return;
+  
+    const sidebar = document.createElement("div");
+    sidebar.id = "email-risk-sidebar";
+    sidebar.classList.add(riskLevel); // Adds 'high', 'medium', or 'low' class for styling
+  
+    const title = document.createElement("h3");
+    title.innerText = "Email Risk Report";
+  
+    const status = document.createElement("p");
+    status.innerHTML = `<strong>Status:</strong> <span>${message}</span>`;
+  
+    const list = document.createElement("ul");
+    for (let item of details) {
+      const li = document.createElement("li");
+      li.innerText = item;
+      list.appendChild(li);
     }
+  
+    const closeBtn = document.createElement("button");
+    closeBtn.innerText = "Close";
+    closeBtn.onclick = () => sidebar.remove();
+  
+    sidebar.appendChild(title);
+    sidebar.appendChild(status);
+    sidebar.appendChild(list);
+    sidebar.appendChild(closeBtn);
+  
+    document.body.appendChild(sidebar);
+  }
+  
 
-    emailContainer.insertBefore(banner, emailContainer.firstChild);
-}
-
-// Simulate email analysis (in a real app, call your backend)
+// Simulated email analysis
 function analyzeEmail() {
-    const emailBody = document.body.innerText;
-    
-    if (emailBody.includes("urgent") || emailBody.includes("click here")) {
-        addWarningBanner("high", "⚠️ This email may be phishing! Be careful.");
-    } else if (emailBody.includes("unsubscribe") || emailBody.includes("limited offer")) {
-        addWarningBanner("medium", "⚠️ This email might be spam.");
+    const emailText = document.body.innerText;
+
+    let risk = "low";
+    let message = "✅ This email looks safe.";
+    let reasons = [];
+
+    if (emailText.includes("urgent") || emailText.includes("click here")) {
+        risk = "high";
+        message = "❌ This email may be a phishing attempt!";
+        reasons.push("Contains words like 'urgent' or 'click here'");
+    } else if (emailText.includes("unsubscribe") || emailText.includes("limited offer")) {
+        risk = "medium";
+        message = "⚠️ This email might be promotional or spam.";
+        reasons.push("Contains marketing keywords");
     } else {
-        addWarningBanner("low", "✅ This email looks safe.");
+        reasons.push("No major phishing indicators found");
     }
+
+    createSidebar(risk, message, reasons);
 }
 
-// Wait for Gmail to load and analyze the email
-setTimeout(analyzeEmail, 3000);
+setTimeout(analyzeEmail, 3000);  // Wait for Gmail to load

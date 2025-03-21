@@ -1,0 +1,47 @@
+#email-risk-sidebar {
+    position: fixed;
+    top: 80px;
+    right: 0;
+    width: 300px;
+    height: calc(100% - 80px);
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+    overflow-y: auto;
+    border-left: 8px solid #4caf50; /* default safe color */
+  }
+  
+  #email-risk-sidebar.high {
+    border-left-color: red;
+  }
+  
+  #email-risk-sidebar.medium {
+    border-left-color: orange;
+  }
+  
+  #email-risk-sidebar.low {
+    border-left-color: green;
+  }
+  
+  #email-risk-sidebar h3 {
+    margin-top: 0;
+  }
+  
+  #email-risk-sidebar button {
+    margin-top: 20px;
+    padding: 8px 12px;
+    background-color: #eee;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #email-risk-sidebar button:hover {
+    background-color: #ddd;
+  }
+  
+  #email-risk-sidebar ul {
+    padding-left: 20px;
+  }
+  
