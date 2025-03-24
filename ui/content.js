@@ -20,7 +20,10 @@ function createSidebar(riskLevel, message, details = []) {
   
     const closeBtn = document.createElement("button");
     closeBtn.innerText = "Close";
-    closeBtn.onclick = () => sidebar.remove();
+    closeBtn.onclick = () => {
+        sidebar.classList.add("hide");
+        setTimeout(() => sidebar.remove(), 300); // wait for animation to finish
+    };
   
     sidebar.appendChild(title);
     sidebar.appendChild(status);
@@ -28,6 +31,10 @@ function createSidebar(riskLevel, message, details = []) {
     sidebar.appendChild(closeBtn);
   
     document.body.appendChild(sidebar);
+
+    setTimeout(() => {
+        sidebar.classList.add("show");
+    }, 50);
   }
   
 
