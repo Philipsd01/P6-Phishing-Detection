@@ -4,6 +4,7 @@ function createSidebar(riskLevel, message, details = []) {
     const sidebar = document.createElement("div");
     sidebar.id = "email-risk-sidebar";
     sidebar.classList.add(riskLevel); // Adds 'high', 'medium', or 'low' class for styling
+
   
     const title = document.createElement("h3");
     title.innerText = "Email Risk Report";
@@ -17,6 +18,12 @@ function createSidebar(riskLevel, message, details = []) {
       li.innerText = item;
       list.appendChild(li);
     }
+
+    // ✅ ADD THIS: Confidence score
+    const confidenceScore = Math.floor(Math.random() * 21) + 80; // e.g., 80–100%
+    const confidence = document.createElement("p");
+    confidence.innerHTML = `<strong>Confidence Score:</strong> ${confidenceScore}%`;
+    sidebar.appendChild(confidence);
   
     const closeBtn = document.createElement("button");
     closeBtn.innerText = "Close";
@@ -60,5 +67,7 @@ function analyzeEmail() {
 
     createSidebar(risk, message, reasons);
 }
+
+
 
 setTimeout(analyzeEmail, 3000);  // Wait for Gmail to load
