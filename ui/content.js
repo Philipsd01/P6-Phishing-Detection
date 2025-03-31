@@ -1,73 +1,89 @@
-function createSidebar(riskLevel, message, details = []) {
+function createSidebar(riskLevel, message, details = [], confidenceScore = null) {
     if (document.getElementById("email-risk-sidebar")) return;
-  
+
     const sidebar = document.createElement("div");
     sidebar.id = "email-risk-sidebar";
-    sidebar.classList.add(riskLevel); // Adds 'high', 'medium', or 'low' class for styling
+    sidebar.classList.add(riskLevel); // 'low', 'medium', 'high'
 
-  
     const title = document.createElement("h3");
     title.innerText = "Email Risk Report";
-  
+
     const status = document.createElement("p");
     status.innerHTML = `<strong>Status:</strong> <span>${message}</span>`;
-  
+
     const list = document.createElement("ul");
     for (let item of details) {
-      const li = document.createElement("li");
-      li.innerText = item;
-      list.appendChild(li);
+        const li = document.createElement("li");
+        li.innerText = item;
+        list.appendChild(li);
     }
 
-    // ✅ ADD THIS: Confidence score
-    const confidenceScore = Math.floor(Math.random() * 21) + 80; // e.g., 80–100%
-    const confidence = document.createElement("p");
-    confidence.innerHTML = `<strong>Confidence Score:</strong> ${confidenceScore}%`;
-    sidebar.appendChild(confidence);
-  
+    // ✅ Display actual score (if provided)
+    if (confidenceScore !== null) {
+        const confidence = document.createElement("p");
+        confidence.innerHTML = `<strong>Confidence Score:</strong> ${confidenceScore}%`;
+        sidebar.appendChild(confidence);
+    }
+
     const closeBtn = document.createElement("button");
     closeBtn.innerText = "Close";
     closeBtn.onclick = () => {
         sidebar.classList.add("hide");
-        setTimeout(() => sidebar.remove(), 300); // wait for animation to finish
+        setTimeout(() => sidebar.remove(), 300);
     };
-  
+
     sidebar.appendChild(title);
     sidebar.appendChild(status);
     sidebar.appendChild(list);
     sidebar.appendChild(closeBtn);
-  
+
     document.body.appendChild(sidebar);
-
-    setTimeout(() => {
-        sidebar.classList.add("show");
-    }, 50);
-  }
-  
-
-// Simulated email analysis
-function analyzeEmail() {
-    const emailText = document.body.innerText;
-
-    let risk = "low";
-    let message = "✅ This email looks safe.";
-    let reasons = [];
-
-    if (emailText.includes("urgent") || emailText.includes("click here")) {
-        risk = "high";
-        message = "❌ This email may be a phishing attempt!";
-        reasons.push("Contains words like 'urgent' or 'click here'");
-    } else if (emailText.includes("unsubscribe") || emailText.includes("limited offer")) {
-        risk = "medium";
-        message = "⚠️ This email might be promotional or spam.";
-        reasons.push("Contains marketing keywords");
-    } else {
-        reasons.push("No major phishing indicators found");
-    }
-
-    createSidebar(risk, message, reasons);
+    setTimeout(() => sidebar.classList.add("show"), 50);
 }
 
+  
 
-
-setTimeout(analyzeEmail, 3000);  // Wait for Gmail to load
+function analyzeEmail() {
+    const subjectElement = document.querySelector("h2.hP");
+    const bodyElement = document.querySelector("div.a3s.aiL");
+    
+    const subjectText = subjectElement?.innerText || "⚠️ No subject found";
+    const bodyText = bodyElement?.innerText || "⚠️ No body content found";
+    
+    console.log("📧 Subject:", subjectText);
+    console.log("📧 Body:", bodyText);
+    
+    fetch("http://127.0.0.1:8000/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        subject: subjectText,
+        body: bodyText
+      })
+    })    
+    .then(res => res.json())
+    .then(data => {
+      const { label, score } = data;
+      let risk = "low";
+      let message = "✅ This email looks safe.";
+      let reasons = [];
+  
+      if (label === "phishing") {
+        risk = score > 80 ? "high" : "medium";
+        message = "❌ This email may be a phishing attempt!";
+        reasons.push("Flagged by phishing detection model.");
+      } else {
+        reasons.push("No major phishing indicators found.");
+      }
+  
+      createSidebar(risk, message, reasons, score);
+    })
+    .catch(err => {
+      console.error("❌ Prediction failed:", err);
+      createSidebar("medium", "⚠️ Could not analyze email", ["Model may be offline or unreachable."], null);
+    });
+  }
+  
+  // ✅ Only run one version
+  setTimeout(analyzeEmail, 3000);
+  
