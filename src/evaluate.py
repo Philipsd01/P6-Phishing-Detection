@@ -4,6 +4,7 @@ from preprocess import load_and_prepare_data
 from sklearn.metrics import classification_report, accuracy_score
 from torch.utils.data import DataLoader
 from transformers import default_data_collator
+from datasets import load_from_disk
 
 import torch
 
@@ -12,18 +13,14 @@ def evaluate_model(model, data_path):
     model.to("cuda" if torch.cuda.is_available() else "cpu")
     model.eval()
 
-    # Load and prepare data
-    df = load_and_prepare_data(data_path)
-    dataset = convert_to_dataset(df)
-    if "__index_level_0__" in dataset.column_names:
-        dataset = dataset.remove_columns(["__index_level_0__"])
-        
-    tokenized_dataset = tokenize_dataset(dataset, tokenizer)
-    test_set = tokenized_dataset.train_test_split(test_size=0.2)["test"]
+    # Load pre-split test set from disk
+    dataset = load_from_disk("data/tokenized_split_dataset")
+    test_set = dataset["test"]
     test_set.set_format("torch")
 
 
-    dataloader = DataLoader(test_set, batch_size=8, collate_fn=default_data_collator)
+
+    dataloader = DataLoader(test_set, batch_size=16, collate_fn=default_data_collator)
     all_preds, all_labels = [], []
 
     with torch.no_grad():

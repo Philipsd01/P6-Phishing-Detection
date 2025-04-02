@@ -20,6 +20,10 @@ def train_model(learning_rate=2e-5, epochs=3):
     tokenized_dataset = tokenize_dataset(dataset, tokenizer)
     tokenized_dataset = tokenized_dataset.train_test_split(test_size=0.2)
 
+    # Save split dataset to disk
+    tokenized_dataset.save_to_disk("data/tokenized_split_dataset")
+
+
     # Load model
     model = BertForSequenceClassification.from_pretrained("bert-base-uncased", num_labels=2)
 
@@ -27,8 +31,9 @@ def train_model(learning_rate=2e-5, epochs=3):
     training_args = TrainingArguments(
         output_dir=output_dir,
         learning_rate=learning_rate,
-        per_device_train_batch_size=8,
-        per_device_eval_batch_size=8,
+        per_device_train_batch_size=16,
+        per_device_eval_batch_size=16,
+        seed=42,
         num_train_epochs=epochs,
         weight_decay=0.01,
         evaluation_strategy="epoch",
