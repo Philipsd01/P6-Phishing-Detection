@@ -1,0 +1,20 @@
+# Core ML and Deep Learning
+torch>=2.6.0+cu118
+torchvision>=0.21.0+cu118
+torchaudio>=2.6.0+cu118
+
+# Hugging Face Transformers and Datasets
+transformers>=4.39.3
+datasets>=2.19.1
+accelerate>=0.29.2
+
+# Data handling
+pandas>=2.2.2
+numpy>=1.26.4
+
+# Jupyter support (optional)
+jupyterlab
+ipykernel
+
+# Optional: for model evaluation
+scikit-learn>=1.4.1
