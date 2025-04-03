@@ -6,7 +6,8 @@ import torch
 app = Flask(__name__)
 
 # Use a relative path so it works in both dev and Docker environments.
-model_path = os.path.join("models", "trained_models", "bert_phishing_20250402_123906")
+# Remember to change to actual model path when deploying.
+model_path = os.path.join("models", "bert_lr2e-05_ep1_0403-1444")
 
 tokenizer = BertTokenizer.from_pretrained(model_path, local_files_only=True)
 model = BertForSequenceClassification.from_pretrained(model_path, local_files_only=True)
@@ -17,29 +18,28 @@ def preprocess_text(text):
     return tokenizer(text, return_tensors="pt", truncation=True, padding=True)
 
 def predict_phishing(processed_input):
-    # Run the model inference without computing gradients
     with torch.no_grad():
         outputs = model(**processed_input)
-    # Apply softmax to obtain probabilities
-    probabilities = torch.nn.functional.softmax(outputs.logits, dim=-1)
-    # Assuming your model has 2 labels: index 1 is "phishing"
+    logits = outputs.logits
+    # Get the predicted label index
+    predicted_label = torch.argmax(logits, dim=-1).item()
+    # Assuming label 1 is phishing
+    is_phishing = (predicted_label == 1)
+    # Optionally, compute a confidence score
+    probabilities = torch.nn.functional.softmax(logits, dim=-1)
     score = probabilities[0][1].item()
-    # You can adjust this threshold based on your model's performance
-    is_phishing = score > 0.5
     return {"is_phishing": is_phishing, "score": score}
 
 @app.route('/predict', methods=['POST'])
 def handle_prediction():
     try:
         data = request.get_json()
-        if not data or 'email_body' not in data:
-            return jsonify({"error": "Missing 'email_body' in request"}), 400
+        if not data or 'raw_text' not in data:
+            return jsonify({"error": "Missing 'raw_text' in request"}), 400
 
-        email_body = data.get('email_body', '')
-        email_subject = data.get('email_subject', '')
-
-        # Combine subject and body for prediction
-        full_email = email_subject + " " + email_body
+        # Use the raw text from the payload directly.
+        full_email = data.get('raw_text')
+        print(f"Received prediction request. Full email text: {full_email[:50]}...")  # Log for debugging
 
         # Preprocess the email using the tokenizer
         processed_input = preprocess_text(full_email)

@@ -1,98 +1,31 @@
-import pandas as pd
 import os
-import torch
-from torch.utils.data import Dataset, DataLoader
-from transformers import BertTokenizer, BertForSequenceClassification, AdamW
-from sklearn.model_selection import train_test_split
-from tqdm import tqdm
 from datetime import datetime
+from preprocess import load_and_prepare_data
+from bert_utils import get_tokenizer, convert_to_dataset, tokenize_dataset
+from transformers import BertForSequenceClassification, Trainer, TrainingArguments
 
-class EmailDataset(Dataset):
-    def __init__(self, texts, labels, tokenizer, max_len):
-        self.texts = texts
-        self.labels = labels
-        self.tokenizer = tokenizer
-        self.max_len = max_len
+def train_model(learning_rate=2e-5, epochs=3):
+    # Dynamic output dir based on params + timestamp
+    timestamp = datetime.now().strftime("%m%d-%H%M")
+    model_name = f"bert_lr{learning_rate}_ep{epochs}_{timestamp}"
+    output_dir = f"models/{model_name}"
+    os.makedirs(output_dir, exist_ok=True)
 
-    def __len__(self):
-        return len(self.texts)
+    # Load and prepare data
+    df = load_and_prepare_data('data/processed_data/Phishing_Email2_cleaned.csv')
+    dataset = convert_to_dataset(df)
 
-    def __getitem__(self, idx):
-        text = str(self.texts[idx])
-        label = self.labels[idx]
+    # Print first 5 preprocessed texts
+    print("Preprocessed email texts:")
+    for i, example in enumerate(dataset.select(range(5))):
+        # Adjust the key below to match the column name in your dataset.
+        print(f"Example {i}: {example['text']}")
 
-        encoding = self.tokenizer.encode_plus(
-            text,
-            add_special_tokens=True,
-            max_length=self.max_len,
-            return_token_type_ids=False,
-            padding='max_length',
-            truncation=True,
-            return_attention_mask=True,
-            return_tensors='pt',
-        )
+    # Tokenize
+    tokenizer = get_tokenizer()
+    tokenized_dataset = tokenize_dataset(dataset, tokenizer)
+    tokenized_dataset = tokenized_dataset.train_test_split(test_size=0.2)
 
-        return {
-            'text': text,
-            'input_ids': encoding['input_ids'].flatten(),
-            'attention_mask': encoding['attention_mask'].flatten(),
-            'labels': torch.tensor(label, dtype=torch.long)
-        }
-
-def load_data():
-    # Load cleaned datasets
-    files = [
-        'data/processed_data/Nazario_cleaned.csv'
-    #    'data/processed_data/CEAS_08_cleaned.csv'
-    #    'data/processed_data/Enron_cleaned.csv'
-    #    'data/processed_data/Ling_cleaned.csv'
-
-    # Add other cleaned files for more training data
-    ]
-    
-    dfs = [pd.read_csv(f) for f in files]
-    data = pd.concat(dfs, ignore_index=True)
-    
-    # Combine subject and body since bert expects a single text input
-    data['text'] = data['subject'] + ' ' + data['body']
-    return data
-
-def train():
-    # Config
-    MAX_LEN = 256
-    BATCH_SIZE = 16
-    EPOCHS = 2
-    MODEL_NAME = 'bert-base-uncased'
-
-    # Load data
-    data = load_data()
-    X_train, X_val, y_train, y_val = train_test_split(
-        data['text'], data['label'], test_size=0.4, random_state=42
-    )
-
-    # Initialize tokenizer and model
-    tokenizer = BertTokenizer.from_pretrained(MODEL_NAME)
-    
-    model = BertForSequenceClassification.from_pretrained(
-        'bert-base-uncased',
-        num_labels=2, 
-        ignore_mismatched_sizes=True
-    )
-
-    # Create dataloaders
-    train_dataset = EmailDataset(X_train.tolist(), y_train.tolist(), tokenizer, MAX_LEN)
-    val_dataset = EmailDataset(X_val.tolist(), y_val.tolist(), tokenizer, MAX_LEN)
-
-    train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE)
-
-    # Training setup
-    # Check if GPU is available
-    if not torch.cuda.is_available():
-        print("GPU not available")
-        exit()  # Exit the program if GPU is not available
-    device = torch.device('cuda')
-    print(f"Using device: {device}")
     # Save split dataset to disk
     tokenized_dataset.save_to_disk("data/tokenized_split_dataset")
 
@@ -115,71 +48,21 @@ def train():
         save_total_limit=1
     )
 
-    model = model.to(device)
-    optimizer = AdamW(model.parameters(), lr=2e-5)
+    os.makedirs(training_args.logging_dir, exist_ok=True)
 
-    # Move data to GPU
-    for batch in train_loader:
-        input_ids = batch['input_ids'].to(device)
-        attention_mask = batch['attention_mask'].to(device)
-        labels = batch['labels'].to(device)
+    # Trainer
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=tokenized_dataset["train"],
+        eval_dataset=tokenized_dataset["test"]
+    )
 
-    # Training loop
-    for epoch in range(EPOCHS):
-        model.train()
-        train_loss = 0
-        for batch in tqdm(train_loader, desc=f"Training Epoch {epoch+1}/{EPOCHS}"):
-            optimizer.zero_grad()
-            input_ids = batch['input_ids'].to(device)
-            attention_mask = batch['attention_mask'].to(device)
-            labels = batch['labels'].to(device)
-            
-            outputs = model(
-                input_ids=input_ids,
-                attention_mask=attention_mask,
-                labels=labels
-            )
-            
-            loss = outputs.loss
-            loss.backward()
-            optimizer.step()
-            train_loss += loss.item()
+    trainer.train()
 
-        # Validation
-        model.eval()
-        val_loss = 0
-        correct = 0
-        with torch.no_grad():
-            for batch in tqdm(val_loader, desc=f"Validation Epoch {epoch+1}/{EPOCHS} \n"):
-                input_ids = batch['input_ids'].to(device)
-                attention_mask = batch['attention_mask'].to(device)
-                labels = batch['labels'].to(device)
-                
-                outputs = model(
-                    input_ids=input_ids,
-                    attention_mask=attention_mask,
-                    labels=labels
-                )
-                
-                val_loss += outputs.loss.item()
-                preds = torch.argmax(outputs.logits, dim=1)
-                correct += (preds == labels).sum().item()
+    # Save final model and tokenizer
+    trainer.model.save_pretrained(output_dir, safe_serialization=False)
+    tokenizer.save_pretrained(output_dir)
 
-        print(f'Epoch {epoch+1}/{EPOCHS}')
-        print(f'Train Loss: {train_loss/len(train_loader):.4f}')
-        print(f'Val Loss: {val_loss/len(val_loader):.4f}')
-        print(f'Val Accuracy: {correct/len(val_dataset):.4f}')
-
-    # Save model
-    try:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        save_dir = os.path.join('models', 'trained_models', f'bert_phishing_{timestamp}')
-        os.makedirs(save_dir, exist_ok=True)
-        model.save_pretrained(save_dir)
-        tokenizer.save_pretrained(save_dir)
-        print(f"Model successfully saved to {save_dir}")
-    except Exception as e:
-        print(f"Failed to save model: {e}")
-
-if __name__ == '__main__':
-    train()
+if __name__ == "__main__":
+    train_model(learning_rate=2e-5, epochs=1)
