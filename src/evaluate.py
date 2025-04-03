@@ -39,7 +39,7 @@ def evaluate_model(model, data_path):
 
 
 if __name__ == "__main__":
-    model_path = "./saved_models/bert_lr2e-05_ep1_20250319-113429"
+    model_path = "models/BERT_lr2e-05_ep1_20250403-123906" #Change this to correct model path
 
     model = BertForSequenceClassification.from_pretrained(
         model_path,

@@ -1,0 +1,3 @@
+transformers       # HuggingFace library (for BERT)
+torch              # PyTorch backend for BERT
+flask              # For building the Flask API

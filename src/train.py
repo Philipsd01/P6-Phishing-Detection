@@ -6,14 +6,20 @@ from transformers import BertForSequenceClassification, Trainer, TrainingArgumen
 
 def train_model(learning_rate=2e-5, epochs=3):
     # Dynamic output dir based on params + timestamp
-    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    timestamp = datetime.now().strftime("%m%d-%H%M")
     model_name = f"bert_lr{learning_rate}_ep{epochs}_{timestamp}"
-    output_dir = f"saved_models/{model_name}"
+    output_dir = f"models/{model_name}"
     os.makedirs(output_dir, exist_ok=True)
 
     # Load and prepare data
     df = load_and_prepare_data('data/processed_data/Phishing_Email2_cleaned.csv')
     dataset = convert_to_dataset(df)
+
+    # Print first 5 preprocessed texts
+    print("Preprocessed email texts:")
+    for i, example in enumerate(dataset.select(range(5))):
+        # Adjust the key below to match the column name in your dataset.
+        print(f"Example {i}: {example['text']}")
 
     # Tokenize
     tokenizer = get_tokenizer()
@@ -41,6 +47,8 @@ def train_model(learning_rate=2e-5, epochs=3):
         save_strategy="epoch",
         save_total_limit=1
     )
+
+    os.makedirs(training_args.logging_dir, exist_ok=True)
 
     # Trainer
     trainer = Trainer(
