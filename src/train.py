@@ -93,6 +93,27 @@ def train():
         exit()  # Exit the program if GPU is not available
     device = torch.device('cuda')
     print(f"Using device: {device}")
+    # Save split dataset to disk
+    tokenized_dataset.save_to_disk("data/tokenized_split_dataset")
+
+
+    # Load model
+    model = BertForSequenceClassification.from_pretrained("bert-base-uncased", num_labels=2)
+
+    # Training setup
+    training_args = TrainingArguments(
+        output_dir=output_dir,
+        learning_rate=learning_rate,
+        per_device_train_batch_size=16,
+        per_device_eval_batch_size=16,
+        seed=42,
+        num_train_epochs=epochs,
+        weight_decay=0.01,
+        evaluation_strategy="epoch",
+        logging_dir=f"{output_dir}/logs",
+        save_strategy="epoch",
+        save_total_limit=1
+    )
 
     model = model.to(device)
     optimizer = AdamW(model.parameters(), lr=2e-5)
