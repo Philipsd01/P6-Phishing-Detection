@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # Use a relative path so it works in both dev and Docker environments.
 # Remember to change to actual model path when deploying.
-model_path = os.path.join("models", "bert_lr2e-05_ep1_0403-1444")
+model_path = os.path.join("models", "distilbert-base-uncased_lr1.5e-05_ep4_0407-1437")
 
 tokenizer = BertTokenizer.from_pretrained(model_path, local_files_only=True)
 model = BertForSequenceClassification.from_pretrained(model_path, local_files_only=True)

@@ -20,7 +20,9 @@ def clean_csv(file_path):
         "EmailBody": "body",
         "Email Text": "body",
         "Category": "label",
-        "Email Type": "label"
+        "Email Type": "label",
+        "Category": "label",
+        "Message": "body"
         # etc...
     }
     df = df.rename(columns=rename_map)
@@ -111,6 +113,38 @@ for file_path in csv_files:
         print(f"Error processing {file_path}: {e}")
 
 print("Done!")
+
+# --- Create Combined Sample file ---
+# Get list of all cleaned CSV files
+processed_files = glob.glob('data/processed_data/*_cleaned.csv')
+combined_samples = []
+
+sampling_fraction = 0.75  # Fraction of data to sample from each file
+
+for file_path in processed_files:
+    print(f"Sampling {sampling_fraction*100}% from {file_path}")
+    try:
+        df = pd.read_csv(file_path)
+        # Ensure the "label" column is formatted as integer (1 and 0)
+        if "label" in df.columns:
+            # First convert to float and then to int (in case the column is read as float)
+            df["label"] = df["label"].astype(float).astype(int)
+        # Take a random sample from each file 
+        sample_df = df.sample(frac=sampling_fraction, random_state=42)
+        combined_samples.append(sample_df)
+    except Exception as e:
+        print(f"Error processing {file_path} for sampling: {e}")
+
+# Combine samples from all files into a single DataFrame
+if combined_samples:
+    combined_df = pd.concat(combined_samples, ignore_index=True)
+    # Save the combined file with all fields quoted so the formatting is preserved
+    output_combined_path = os.path.join('data', 'processed_data', 'combined_cleaned_sample.csv')
+    combined_df.to_csv(output_combined_path, index=False, quoting=csv.QUOTE_ALL)
+    print(f"Saved combined sample file to {output_combined_path}")
+else:
+    print("No samples were created.")
+
 
 def load_and_prepare_data(csv_path):
     """
