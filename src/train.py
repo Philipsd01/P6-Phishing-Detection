@@ -4,20 +4,32 @@ from datetime import datetime
 from preprocess import load_and_prepare_data
 from bert_utils import get_tokenizer, convert_to_dataset, tokenize_dataset
 from transformers import AutoModelForSequenceClassification, Trainer, TrainingArguments, EarlyStoppingCallback
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 
 def compute_metrics(eval_pred):
     logits, labels = eval_pred
     preds = logits.argmax(-1)
+    
+    # Calculate standard metrics
+    acc = accuracy_score(labels, preds)
+    prec = precision_score(labels, preds, average='weighted')
+    rec = recall_score(labels, preds, average='weighted')
+    f1 = f1_score(labels, preds, average='weighted')
+
+    cm = confusion_matrix(labels, preds)
+    # For binary classification, cm is [[TN, FP], [FN, TP]]
+    TN, FP, FN, TP = cm.ravel()
+    fpr = FP / (FP + TN) if (FP + TN) > 0 else 0
     return {
         'accuracy': accuracy_score(labels, preds), 
         'precision': precision_score(labels, preds, average='weighted'),
         'recall': recall_score(labels, preds, average='weighted'),
-        'f1': f1_score(labels, preds, average='weighted')
+        'f1': f1_score(labels, preds, average='weighted'),
+        'false_positive_rate': fpr
     }
 
     #Change learning rate and epochs here:
-def train_model(model_variant, learning_rate=3e-6, epochs=3):
+def train_model(model_variant, learning_rate=5e-5, epochs=4):
     # Dynamic output dir based on params + timestamp
     timestamp = datetime.now().strftime("%m%d-%H%M")
     model_name = f"{model_variant}_lr{learning_rate}_ep{epochs}_{timestamp}"
@@ -44,17 +56,17 @@ def train_model(model_variant, learning_rate=3e-6, epochs=3):
     training_args = TrainingArguments(
         output_dir=output_dir,
         learning_rate=learning_rate,
-        per_device_train_batch_size=8,
-        per_device_eval_batch_size=64,
+        per_device_train_batch_size=48,
+        per_device_eval_batch_size=96,
         seed=42,
         num_train_epochs=epochs,
-        weight_decay=0.02,               # Increase weight decay for extra regularization
-        eval_strategy="epoch",
+        weight_decay=0.02,               
+        eval_strategy="epoch",          
         logging_dir=f"{output_dir}/logs",
         save_strategy="epoch",
         save_total_limit=1,
-        load_best_model_at_end=True,     # Enable best model loading
-        warmup_steps=50,                # Warmup steps before reaching the set learning rate
+        load_best_model_at_end=True,     
+        warmup_steps=50,                
     )
 
     os.makedirs(training_args.logging_dir, exist_ok=True)
@@ -73,7 +85,7 @@ def train_model(model_variant, learning_rate=3e-6, epochs=3):
 
     # Evaluation step on the test set
     eval_results = trainer.evaluate()
-    print("Evaluation results:")
+    print(f"Evaluation results for model ({model_variant}):")
     for metric, value in eval_results.items():
         print(f"{metric}: {value}")
 
@@ -92,7 +104,16 @@ def parse_args():
     return parser.parse_args()
 
 if __name__ == "__main__":
-    args = parse_args()
-    train_model(
-        model_variant=args.model_variant,
-    )
+    # Define the list of models to train sequentially
+    model_variants = [
+        "FacebookAI/roberta-base",
+        "distilbert/distilbert-base-uncased",
+        "google-bert/bert-base-uncased",
+        "xlnet/xlnet-base-cased",
+    #    "google-bert/bert-large-uncased"   #Didn't load properly for Soya420
+    #    "microsoft/deberta-v3-base"        #Didn't load properly for Soya420
+    ]
+    
+    for variant in model_variants:
+        print(f"Training model: {variant}")
+        train_model(model_variant=variant)
