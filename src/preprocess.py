@@ -119,7 +119,7 @@ print("Done!")
 processed_files = glob.glob('data/processed_data/*_cleaned.csv')
 combined_samples = []
 
-sampling_fraction = 0.75  # Fraction of data to sample from each file
+sampling_fraction = 0.4  # Fraction of data to sample from each file
 
 for file_path in processed_files:
     print(f"Sampling {sampling_fraction*100}% from {file_path}")

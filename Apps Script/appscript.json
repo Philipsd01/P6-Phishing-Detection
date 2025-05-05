@@ -1,24 +1,33 @@
 {
-    "timeZone": "Europe/Berlin",
-    "dependencies": {},
-    "exceptionLogging": "STACKDRIVER",
-    "runtimeVersion": "V8",
-    "oauthScopes": [
-      "https://www.googleapis.com/auth/gmail.addons.current.message.readonly",
-      "https://www.googleapis.com/auth/script.external_request",
-      "https://www.googleapis.com/auth/gmail.addons.execute"
+  "timeZone": "Europe/Berlin",
+  "dependencies": {},
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/gmail.addons.current.message.readonly",
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/gmail.addons.execute"
+  ],
+  "gmail": {
+    "name": "Phishing Detector",
+    "logoUrl": "https://cdn-icons-png.flaticon.com/512/3067/3067833.png", 
+    "contextualTriggers": [
+      {
+        "unconditional": {},
+        "onTriggerFunction": "buildPhishingCheckCard"
+      }
     ],
-    "gmail": {
+    "primaryColor": "#faebd7",
+    "secondaryColor": "#000000",
+    "openLinkUrlPrefixes": ["https://mail.google.com/"]
+  },
+    "addOns": {
+    "common": {
       "name": "Phishing Detector",
-      "logoUrl": "https://cdn-icons-png.flaticon.com/512/3067/3067833.png", 
-      "contextualTriggers": [
-        {
-          "unconditional": {},
-          "onTriggerFunction": "buildPhishingCheckCard"
-        }
-      ],
-      "primaryColor": "#4285F4",
-      "secondaryColor": "#4285F4",
-      "openLinkUrlPrefixes": ["https://mail.google.com/"]
+      "logoUrl": "https://cdn-icons-png.flaticon.com/512/3067/3067833.png",
+      "homepageTrigger": {
+        "runFunction": "buildHomepageCard"
+      }
     }
   }
+}

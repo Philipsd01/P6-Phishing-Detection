@@ -7,7 +7,7 @@ This is a collaborative bachelors project between Anders E. Anders R. & Philip S
 ##### 1. Train the model
 This program requires you to train the model:
 ```sh
-python .\src\train.py
+python src/train.py --model_variant "bert-base-cased" #Can change the model 
 ```
 
 ##### 2. Change the paths

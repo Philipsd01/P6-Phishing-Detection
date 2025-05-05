@@ -1,8 +1,8 @@
-from transformers import BertTokenizer
+from transformers import AutoTokenizer
 from datasets import Dataset
 
-def get_tokenizer():
-    return BertTokenizer.from_pretrained("bert-base-uncased")
+def get_tokenizer(model_name: str):
+    return AutoTokenizer.from_pretrained(model_name)
 
 def convert_to_dataset(df):
     return Dataset.from_pandas(df)
@@ -10,11 +10,9 @@ def convert_to_dataset(df):
 def tokenize_dataset(dataset, tokenizer):
     # Use a local tokenization function that accesses the correct key
     def tokenize_fn(example):
-        return tokenizer(example["text"], padding="max_length", truncation=True)
+        return tokenizer(
+            example["text"], 
+            padding="max_length", 
+            truncation=True
+            )
     return dataset.map(tokenize_fn, batched=True)
-
-# Alternatively, if you want to keep a standalone tokenize_fn
-# def tokenize_fn(example):
-#     # Make sure 'tokenizer' is defined or passed in.
-#     # And note that the key must match the column name in your dataset (i.e. "text")
-#     return tokenizer(example["text"], padding="max_length", truncation=True)

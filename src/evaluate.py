@@ -39,7 +39,7 @@ def evaluate_model(model, data_path):
 
 
 if __name__ == "__main__":
-    model_path = "models/distilbert-base-uncased_lr1.5e-05_ep4_0407-1437" #Change this to correct model path
+    model_path = "models/distilbert-base-uncased_lr5e-05_ep3_0502-1232" #Change this to correct model path
 
     model = BertForSequenceClassification.from_pretrained(
         model_path,
@@ -48,5 +48,5 @@ if __name__ == "__main__":
 
     evaluate_model(
         model=model,
-        data_path="data/processed_data/Phishing_Email2_cleaned.csv"
+        data_path="data/processed_data/combined_cleaned_sample.csv"
     )
