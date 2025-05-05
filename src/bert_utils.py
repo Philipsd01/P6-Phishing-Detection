@@ -9,10 +9,12 @@ def convert_to_dataset(df):
 
 def tokenize_dataset(dataset, tokenizer):
     # Use a local tokenization function that accesses the correct key
-    def tokenize_fn(example):
+    def tokenize(example):
         return tokenizer(
-            example["text"], 
-            padding="max_length", 
-            truncation=True
-            )
-    return dataset.map(tokenize_fn, batched=True)
+            example['text'],  # adjust key to your text field(s)
+            truncation=True,
+            max_length=160,
+            padding='max_length'
+        )
+    
+    return dataset.map(tokenize, batched=True)

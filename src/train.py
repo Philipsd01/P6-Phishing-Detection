@@ -10,7 +10,7 @@ def compute_metrics(eval_pred):
     logits, labels = eval_pred
     preds = logits.argmax(-1)
     return {
-        'accuracy': accuracy_score(labels, preds),
+        'accuracy': accuracy_score(labels, preds), 
         'precision': precision_score(labels, preds, average='weighted'),
         'recall': recall_score(labels, preds, average='weighted'),
         'f1': f1_score(labels, preds, average='weighted')
@@ -49,7 +49,7 @@ def train_model(model_variant, learning_rate=3e-6, epochs=3):
         seed=42,
         num_train_epochs=epochs,
         weight_decay=0.02,               # Increase weight decay for extra regularization
-        evaluation_strategy="epoch",
+        eval_strategy="epoch",
         logging_dir=f"{output_dir}/logs",
         save_strategy="epoch",
         save_total_limit=1,
@@ -65,14 +65,17 @@ def train_model(model_variant, learning_rate=3e-6, epochs=3):
         args=training_args,
         train_dataset=tokenized_dataset["train"],
         eval_dataset=tokenized_dataset["test"],
-        callbacks=[EarlyStoppingCallback(early_stopping_patience=2)]
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=2)],
+        compute_metrics=compute_metrics
     )
 
     trainer.train()
 
     # Evaluation step on the test set
     eval_results = trainer.evaluate()
-    print("Evaluation results:", eval_results)
+    print("Evaluation results:")
+    for metric, value in eval_results.items():
+        print(f"{metric}: {value}")
 
     # Save final model and tokenizer
     trainer.model.save_pretrained(output_dir, safe_serialization=False)

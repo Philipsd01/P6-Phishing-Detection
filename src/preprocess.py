@@ -119,7 +119,7 @@ print("Done!")
 processed_files = glob.glob('data/processed_data/*_cleaned.csv')
 combined_samples = []
 
-sampling_fraction = 0.4  # Fraction of data to sample from each file
+sampling_fraction = 0.8  # Fraction of data to sample from each file
 
 for file_path in processed_files:
     print(f"Sampling {sampling_fraction*100}% from {file_path}")
@@ -127,6 +127,8 @@ for file_path in processed_files:
         df = pd.read_csv(file_path)
         # Ensure the "label" column is formatted as integer (1 and 0)
         if "label" in df.columns:
+            # Drop rows where label is NA to avoid non-finite values when converting to int
+            df = df.dropna(subset=["label"])
             # First convert to float and then to int (in case the column is read as float)
             df["label"] = df["label"].astype(float).astype(int)
         # Take a random sample from each file 
