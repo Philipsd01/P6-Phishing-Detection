@@ -45,7 +45,7 @@ def evaluate_model(model, data_path, model_name):
 
     # Compute and display metrics
     report = classification_report(all_labels, all_preds, digits=4)
-    print(f"Classification Report for {model_name}:\n", report)
+    print(f"\nClassification Report for {model_name}:\n", report)
 
     acc = accuracy_score(all_labels, all_preds)
     print("Accuracy:", acc)

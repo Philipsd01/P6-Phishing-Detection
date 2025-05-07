@@ -1,16 +1,16 @@
 import os
 from flask import Flask, request, jsonify
-from transformers import BertTokenizer, BertForSequenceClassification
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 
 app = Flask(__name__)
 
 # Use a relative path so it works in both dev and Docker environments.
 # Remember to change to actual model path when deploying.
-model_path = os.path.join("models", "roberta-base_lr3e-06_ep3_0502-1429")
+model_path = os.path.join("models", "FacebookAI", "roberta-base_lr5e-06_ep3_0507-1510")
 
-tokenizer = BertTokenizer.from_pretrained(model_path, local_files_only=True)
-model = BertForSequenceClassification.from_pretrained(model_path, local_files_only=True)
+tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
+model = AutoModelForSequenceClassification.from_pretrained(model_path, local_files_only=True)
 model.eval()
 
 def preprocess_text(text):
