@@ -1,9 +1,9 @@
-from transformers import BertTokenizer, BertForSequenceClassification
+from transformers import BertTokenizer, AutoModelForSequenceClassification
 import torch
 
 # Load tokenizer and model
 tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-model = BertForSequenceClassification.from_pretrained("../models/bert_model")
+model = AutoModelForSequenceClassification.from_pretrained("../models/bert_model")
 model.eval()
 
 def predict(text):
