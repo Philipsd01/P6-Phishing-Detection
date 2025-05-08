@@ -29,7 +29,7 @@ def compute_metrics(eval_pred):
     }
 
     #Change learning rate and epochs here:
-def train_model(model_variant, learning_rate=6e-5, epochs=4):
+def train_model(model_variant, learning_rate=1e-5, epochs=4):
     # Dynamic output dir based on params + timestamp
     timestamp = datetime.now().strftime("%m%d-%H%M")
     model_name = f"{model_variant}_lr{learning_rate}_ep{epochs}_{timestamp}"
@@ -49,8 +49,7 @@ def train_model(model_variant, learning_rate=6e-5, epochs=4):
     tokenized_dataset.save_to_disk("data/tokenized_split_dataset")
 
     # Load model
-    model = AutoModelForSequenceClassification\
-                .from_pretrained(model_variant, num_labels=2)
+    model = AutoModelForSequenceClassification.from_pretrained(model_variant, num_labels=2)
 
     # Training setup
     training_args = TrainingArguments(
@@ -60,13 +59,13 @@ def train_model(model_variant, learning_rate=6e-5, epochs=4):
         per_device_eval_batch_size=64,
         seed=42,
         num_train_epochs=epochs,
-        weight_decay=0.0205,               
+        weight_decay=0.02,               
         eval_strategy="epoch",          
         logging_dir=f"{output_dir}/logs",
         save_strategy="epoch",
         save_total_limit=1,
         load_best_model_at_end=True,     
-        warmup_steps=40,                
+        warmup_steps=50,                
     )
 
     os.makedirs(training_args.logging_dir, exist_ok=True)
@@ -109,7 +108,7 @@ if __name__ == "__main__":
         "FacebookAI/roberta-base",
         "distilbert/distilbert-base-uncased",
         "google-bert/bert-base-uncased",
-        "xlnet/xlnet-base-cased",
+        "xlnet/xlnet-base-cased"
     #    "google-bert/bert-large-uncased"   #Didn't load properly for Soya420 stuck on 1/xxx
     #    "microsoft/deberta-v3-base"        #Didn't load properly for Soya420 stuck on 1/xxx
     ]
