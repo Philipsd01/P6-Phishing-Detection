@@ -1,3 +1,4 @@
 models/
+model/
 __pycache__/
 *.pyc
