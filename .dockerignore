@@ -1,8 +1,10 @@
 data/
+models/
 notebooks/
 .venv
 *.pyc
 __pycache__/
+
 .git
 *.env
 *.csv

@@ -2,7 +2,7 @@
 
 // Use the endpoint confirmed from your ngrok forward
 const LOCAL_API_ENDPOINT =
-  "https://53a1-2a02-aa7-464a-ae80-fde7-76b9-ef8f-1594.ngrok-free.app/predict"; // Make sure this is your CURRENT ngrok URL
+  "https://19d3-2a02-aa7-465c-175e-29f6-bf4d-5efc-7f90.ngrok-free.app/predict"; // Make sure this is your CURRENT ngrok URL
 
 /**
  * Builds the card shown when the add-on is opened without email context (Homepage).
@@ -16,14 +16,9 @@ function buildHomepageCard(e) {
   // Top section with main instruction
   const mainSection = CardService.newCardSection().addWidget(
     CardService.newTextParagraph().setText(
-      "Please open an email to analyze it."
+      "<br>Please open an email to analyze it.<br><br><br><br><br>"
     )
   );
-
-  // Spacer section (optional, makes things breathe a bit)
-  const spacerSection1 = CardService.newCardSection().addWidget(
-    CardService.newTextParagraph().setText("<br><br><br>")
-  ); // Add vertical space
 
   // Separate section for centered image
   const imageSection = CardService.newCardSection().addWidget(
@@ -32,24 +27,17 @@ function buildHomepageCard(e) {
       .setAltText("Information icon")
   );
 
-  // Spacer section (optional, makes things breathe a bit)
-  const spacerSection2 = CardService.newCardSection().addWidget(
-    CardService.newTextParagraph().setText("<br><br><br>")
-  ); // Add vertical space
-
   // Footer section
   const footerSection = CardService.newCardSection().addWidget(
     CardService.newTextParagraph().setText(
-      "<div align='bottom'><font color='#888888' size='small'>If an email is already opened <br> Press the View button</font></div>"
+      "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> <div align='bottom'><font color='#888888' size='small'>If an email is already opened <br> Press the View button</font></div><br><br>"
     )
   );
 
   const card = CardService.newCardBuilder()
-    .setHeader(CardService.newCardHeader().setTitle("No Email Detected"))
+    .setHeader(CardService.newCardHeader().setTitle("No Email Detected<br>"))
     .addSection(mainSection)
-    .addSection(spacerSection1)
     .addSection(imageSection)
-    .addSection(spacerSection2)
     .addSection(footerSection)
     .build();
   return [card];
@@ -168,18 +156,25 @@ function handleAnalyzeButtonClick(actionEvent) {
 
     // --- 5. Process API Response ---
     let resultText = "Analysis Result:";
+    let confidenceText = "";
     let isPhishing = false;
     if (responseCode === 200) {
       try {
         const predictionResult = JSON.parse(responseBody);
-        if (predictionResult.hasOwnProperty("is_phishing")) {
+        if (
+          predictionResult.hasOwnProperty("is_phishing") &&
+          predictionResult.hasOwnProperty("confidence")
+        ) {
           isPhishing = predictionResult.is_phishing;
+          const confidenceScore = predictionResult.confidence;
           resultText = isPhishing
             ? "⚠️ Potential Phishing Detected!"
             : "✅ Looks Safe";
+          confidenceText = `Confidence: ${(confidenceScore * 100).toFixed(2)}%`;
         } else {
           console.error(
-            "API response missing 'is_phishing' key. Body: " + responseBody
+            "API response missing 'is_phishing' or 'confidence' key. Body: " +
+              responseBody
           );
           resultText = "Error: Invalid API response format.";
         }
@@ -223,11 +218,19 @@ function handleAnalyzeButtonClick(actionEvent) {
       .setImageUrl(iconURL);
 
     // --- 8. Build RESULT Card Sections and Widgets ---
-    const cardSection = CardService.newCardSection()
-      .addWidget(CardService.newTextParagraph().setText(resultText))
-      .addWidget(
-        CardService.newTextParagraph().setText(`<b>Subject:</b> ${subject}`)
+    const cardSection = CardService.newCardSection().addWidget(
+      CardService.newTextParagraph().setText(
+        `<b>Results for Email:</b><br>${subject} <br><br>`
+      )
+    );
+
+    cardSection.addWidget(CardService.newTextParagraph().setText(resultText));
+
+    if (confidenceText) {
+      cardSection.addWidget(
+        CardService.newTextParagraph().setText(confidenceText)
       );
+    }
 
     const imageSection = CardService.newCardSection().addWidget(
       CardService.newImage()

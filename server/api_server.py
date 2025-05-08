@@ -5,9 +5,13 @@ import torch
 
 app = Flask(__name__)
 
-# Use a relative path so it works in both dev and Docker environments.
-# Remember to change to actual model path when deploying.
-model_path = os.path.join("models", "FacebookAI", "roberta-base_lr5e-06_ep3_0507-1510")
+## resolve from THIS file into an absolute folder so HF never tries the Hub
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+model_path = os.path.join(
+    PROJECT_ROOT,
+    "model",
+    "roberta-base_lr6e-05_ep4_0507-1510"
+)
 
 tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
 model = AutoModelForSequenceClassification.from_pretrained(model_path, local_files_only=True)
@@ -23,11 +27,18 @@ def predict_phishing(processed_input):
     logits = outputs.logits
     # Get the predicted label index
     predicted_label = torch.argmax(logits, dim=-1).item()
-    # Assuming label 1 is phishing
+    # Assuming label 1 is phishing, label 0 is not phishing (safe)
     is_phishing = (predicted_label == 1)
-    # Optionally, compute a confidence score
+    
     probabilities = torch.nn.functional.softmax(logits, dim=-1)
-    score = probabilities[0][1].item()
+    
+    if is_phishing:
+        # Confidence that it IS phishing
+        score = probabilities[0][1].item() 
+    else:
+        # Confidence that it IS NOT phishing (safe)
+        score = probabilities[0][0].item()
+        
     return {"is_phishing": is_phishing, "score": score}
 
 @app.route('/predict', methods=['POST'])
@@ -49,7 +60,7 @@ def handle_prediction():
 
         return jsonify({
             "is_phishing": prediction_result["is_phishing"],
-            "score": prediction_result["score"]
+            "confidence": prediction_result["score"]
         })
     except Exception as e:
         # Log the error for debugging
