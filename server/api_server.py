@@ -50,7 +50,8 @@ def handle_prediction():
 
         # Use the raw text from the payload directly.
         full_email = data.get('raw_text')
-        print(f"Received prediction request. Full email text: {full_email[:50]}...")  # Log for debugging
+        # Log for debugging:
+        print(f"Received prediction request. Full email text: {full_email[:50]}...")  
 
         # Preprocess the email using the tokenizer
         processed_input = preprocess_text(full_email)
@@ -62,8 +63,9 @@ def handle_prediction():
             "is_phishing": prediction_result["is_phishing"],
             "confidence": prediction_result["score"]
         })
+    
+    # Log the error for debugging:
     except Exception as e:
-        # Log the error for debugging
         print(f"Error during prediction: {e}")
         return jsonify({"error": "Prediction failed"}), 500
     

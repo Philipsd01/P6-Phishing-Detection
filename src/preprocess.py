@@ -94,7 +94,7 @@ def clean_csv(file_path):
     # Return the cleaned DataFrame
     return df
 
-csv_files = glob.glob('data/unprocessed_data/*.csv')
+csv_files = glob.glob('data/validation/*.csv')
 
 for file_path in csv_files:
     print(f"Processing {file_path}...")
@@ -116,7 +116,7 @@ print("Done!")
 
 # --- Create Combined Sample file ---
 # Get list of all cleaned CSV files
-processed_files = glob.glob('data/processed_data/*_cleaned.csv')
+processed_files = glob.glob('data/validation/cleaned/*_cleaned.csv')
 combined_samples = []
 
 sampling_fraction = 0.8  # Fraction of data to sample from each file

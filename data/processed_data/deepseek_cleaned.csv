@@ -1,0 +1,121 @@
+"subject","body","label"
+"(no subject)","urgent: your netflix account will be suspended in 24h! verify payment now: http://netflix-payments[.]info/user123 | transaction id: nf-112233","1"
+"(no subject)","your scheduled zoom meeting with client xyz starts in 15 minutes. join: https://companyname.zoom.us/j/87456321 (passcode: safemeeting456)","0"
+"(no subject)","bank of america security alert: unusual $5,000 withdrawal pending. cancel transaction: http://bofa-secure[.]online/alert123 | ref: bofa-445566","1"
+"(no subject)","it reminder: mandatory system update tonight at 8 pm. save all work before logging off. contact helpdesk@company.com with concerns.","0"
+"(no subject)","fedex delivery failed: update address immediately at http://fedex-track[.]cc/12345abcde | package will be destroyed in 48h","1"
+"(no subject)","your document 'project_budget_q4.pdf' has been approved. access on sharepoint: https://company.sharepoint.com/docs/789","0"
+"(no subject)","apple id locked: suspicious activity detected in moscow. reset now: http://apple-id-secure[.]net/user@email.com | case id: apl-987654","1"
+"(no subject)","team lunch reminder: thursday 12:30 pm at main street grill. dietary restrictions? reply by eod. - office admin","0"
+"(no subject)","paypal limited account: verify recent $1,299 purchase at bestbuy. click: http://pp-verification[.]site/ref789 | transaction pp-887766","1"
+"(no subject)","new comment on pr #4567 in github repo. review: https://github.com/company/project/pull/4567 (requires 2fa)","0"
+"(no subject)","irs final notice: lawsuit pending for unpaid taxes ($8,765.43). dispute within 24h: http://irs-settlement[.]us/ref123 | case id: irs-1122","1"
+"(no subject)","your aws bill for october is ready. download invoice: https://console.aws.company.com/billing (vpn required)","0"
+"(no subject)","facebook security alert: login from new device in china. confirm identity: http://fb-secure[.]online/alert456 | case id: fb-665544","1"
+"(no subject)","reminder: submit timesheets by friday 5 pm. access adp portal: https://company.adp.com (use mfa)","0"
+"(no subject)","wells fargo account frozen: verify recent zelle transfers. unlock: http://wells-fargo-secure[.]cc/user123 | ref: wf-334455","1"
+"(no subject)","your software license renewal is due next month. review terms: https://company.licensingportal.com (contact procurement@company.com)","0"
+"(no subject)","amazon delivery issue: confirm package contents at http://amazon-delivery[.]info/ref987 | failure to respond = account suspension","1"
+"(no subject)","q4 all-hands meeting agenda attached. download: https://intranet.company.com/events/1234 (sso required)","0"
+"(no subject)","twitter password reset required: unusual activity detected. confirm: http://twitter-verify[.]net/user@email.com | case id: tw-778899","1"
+"(no subject)","your pto request for dec 15-20 has been approved. view in workday: https://company.workday.com (requires corporate network)","0"
+"(no subject)","ebay account restricted: verify recent $899 purchase. click: http://ebay-confirm[.]site/ref456 | transaction id: eb-112233","1"
+"(no subject)","security training completion certificate attached. download from lms: https://lms.company.com/certificates/789","0"
+"(no subject)","ups delivery exception: update customs info at http://ups-tracking[.]online/123abc | package held at frankfurt facility","1"
+"(no subject)","new jira ticket assigned to you: proj-789 (ui bug fix). details: https://company.atlassian.net/browse/proj-789","0"
+"(no subject)","chase bank alert: $3,000 transfer to unknown account. cancel: http://chase-secure[.]info/alert789 | ref: chase-556677","1"
+"(no subject)","updated healthcare benefits pdf available: https://hrportal.company.com/benefits/2024 (2fa required)","0"
+"(no subject)","microsoft account compromised: reset password immediately at http://ms-account-security[.]com/user@email.com | case id: ms-123456","1"
+"(no subject)","code review completed for feature branch 'login-flow'. merge request: https://gitlab.company.com/merge_requests/456","0"
+"(no subject)","social security number alert: potential misuse detected. verify identity: http://ssn-protect[.]us/ref654 | case id: ssn-987654","1"
+"(no subject)","q3 sales report finalized. access tableau dashboard: https://bi.company.com/sales/q3 (vpn required)","0"
+"(no subject)","google drive quota exceeded: upgrade storage now at http://drive-upgrade[.]online/user123 | account deletion in 48h","1"
+"(no subject)","new okta verify push notification received for azure ad login. approve if legitimate.","0"
+"(no subject)","walmart order confirmation: verify $599.99 purchase at http://walmart-orders[.]cc/ref321 | transaction id: wm-445566","1"
+"(no subject)","updated travel policy pdf uploaded to confluence: https://company.confluence.com/travel/2023","0"
+"(no subject)","linkedin security alert: login attempt from ukraine. block activity: http://linkedin-protect[.]net/user@email.com | case id: ln-112233","1"
+"(no subject)","your jira ticket proj-123 marked resolved. confirm closure: https://company.atlassian.net/browse/proj-123","0"
+"(no subject)","coinbase account restricted: verify cryptocurrency transfer at http://coinbase-secure[.]us/ref789 | transaction id: cb-998877","1"
+"(no subject)","new hire onboarding schedule attached. access: https://hrportal.company.com/onboarding/456 (sso required)","0"
+"(no subject)","western union transfer pending: confirm $2,500 payment to nigeria. click: http://wu-confirm[.]online/ref654 | ref: wu-554433","1"
+"(no subject)","updated code of conduct document requires acknowledgment: https://compliance.company.com (due by dec 1)","0"
+"(no subject)","adobe id locked: unusual login from brazil. verify: http://adobe-account-security[.]net/user@email.com | case id: adb-665544","1"
+"(no subject)","salesforce data export complete. download csv: https://company.salesforce.com/data/exports/789","0"
+"(no subject)","airbnb payment failed: update credit card at http://airbnb-billing[.]info/ref987 | reservation at risk","1"
+"(no subject)","new pr merged to 'dev' branch: implement 2fa for user portal. review: https://github.com/company/repo/pull/789","0"
+"(no subject)","ssn suspended: potential criminal activity detected. verify immediately: http://ssn-verify[.]us/ref321 | case id: ssn-112233","1"
+"(no subject)","annual fire drill scheduled for nov 15, 10 am. details: https://intranet.company.com/safety/drill2023","0"
+"(no subject)","paypal 2fa changed: confirm device authorization at http://pp-account-security[.]site/user@email.com | ref: pp-112233","1"
+"(no subject)","updated soc 2 compliance checklist available: https://security.company.com/compliance/soc2 (internal only)","0"
+"(no subject)","amazon prime renewal failed: update payment method at http://amazon-renew[.]cc/user123 | account downgrade pending","1"
+"(no subject)","quarterly tax documents available in adp: https://company.adp.com/tax/2023q4 (requires mfa)","0"
+"(no subject)","instagram account recovery: confirm identity at http://ig-account-recovery[.]net/ref456 | case id: ig-778899","1"
+"(no subject)","new company cafeteria menu posted: https://intranet.company.com/facilities/cafe-nov2023","0"
+"(no subject)","at&t bill overdue: service disconnection imminent. pay now: http://att-pay-online[.]site/ref789 | amount: $255.67","1"
+"(no subject)","updated employee handbook available: https://hrportal.company.com/handbook (digital signature required)","0"
+"(no subject)","verizon data breach alert: reset account password at http://verizon-protect[.]online/user123 | ref: vz-445566","1"
+"(no subject)","monthly backup verification complete - no issues found. report: https://itportal.company.com/backups/2023-11","0"
+"(no subject)","starbucks rewards account expired: re-activate now at http://starbucks-rewards[.]info/ref654 | 500 points expiring","1"
+"(no subject)","new helpdesk kb article: 'setting up mfa' - https://ithelp.company.com/kb/mfa-guide","0"
+"(no subject)","usps delivery exception: confirm address at http://usps-reschedule[.]net/ref987 | package return initiated","1"
+"(no subject)","updated nda template in legal repository: https://legal.company.com/templates/nda-2023","0"
+"(no subject)","ebay account restricted: verify $1,299 macbook purchase at http://ebay-secure[.]cc/ref321 | transaction id: eb-554433","1"
+"(no subject)","new employee survey: provide feedback by nov 30 - https://hrportal.company.com/surveys/2023q4","0"
+"(no subject)","apple care renewal failed: update payment at http://apple-billing[.]online/ref654 | coverage expires in 24h","1"
+"(no subject)","jira service desk maintenance scheduled for nov 12, 2-4 am utc. read more: https://status.company.com","0"
+"(no subject)","social security benefits suspended: verify income at http://ssa-verify[.]us/ref789 | case id: ssa-112233","1"
+"(no subject)","new marketing campaign assets uploaded: https://drive.company.com/marketing/q4-launch (2fa required)","0"
+"(no subject)","paypal credit limit increased: accept offer at http://pp-credit-offer[.]site/user123 | expires in 12h","1"
+"(no subject)","updated incident response plan: https://security.company.com/irp (access restricted to security team)","0"
+"(no subject)","fedex customs clearance needed: pay $45.67 fee at http://fedex-customs[.]info/ref456 | package held in customs","1"
+"(no subject)","annual security awareness training deadline extended to dec 15. lms link: https://lms.company.com/cybertraining","0"
+"(no subject)","bank account overdraft: verify $1,500 transaction at http://bank-secure[.]online/ref123 | ref: od-665544","1"
+"(no subject)","new company blog post: 'implementing zero trust architecture' - https://techblog.company.com/zero-trust","0"
+"(no subject)","google workspace storage full: upgrade now at http://gworkspace-upgrade[.]net/user123 | data deletion in 24h","1"
+"(no subject)","updated travel expense policy: https://finance.company.com/expenses (digital acknowledgment required)","0"
+"(no subject)","walmart pharmacy refill ready: confirm address at http://walmart-pharmacy[.]cc/ref789 | prescription #rx-445566","1"
+"(no subject)","new customer support scripts uploaded to confluence: https://support.company.com/scripts/nov2023","0"
+"(no subject)","american express fraud alert: verify $899 charge at http://amex-secure[.]site/ref654 | ref: amex-112233","1"
+"(no subject)","updated code repository access permissions: review in okta - https://company.okta.com/apps/github","0"
+"(no subject)","usps mail holding request: confirm vacation dates at http://usps-holdmail[.]info/ref321 | service fee required","1"
+"(no subject)","new api documentation published: https://devportal.company.com/api/v3 (requires auth token)","0"
+"(no subject)","costco membership renewal failed: update payment at http://costco-renew[.]online/ref987 | membership #cost-665544","1"
+"(no subject)","monthly security patch report: https://itportal.company.com/patches/2023-11 (internal access only)","0"
+"(no subject)","docusign alert: verify document signature at http://docusign-validate[.]net/ref456 | document id: ds-112233","1"
+"(no subject)","updated sales playbook available: https://sales.company.com/playbooks/q4 (requires vpn connection)","0"
+"(no subject)","target order verification needed: confirm $599 purchase at http://target-orders[.]cc/ref654 | transaction id: tgt-778899","1"
+"(no subject)","new engineering style guide: https://github.com/company/style-guide/blob/main/readme.md","0"
+"(no subject)","bank routing number changed: confirm modification at http://bank-update[.]info/ref321 | ref: rt-445566","1"
+"(no subject)","annual performance review system open: access at https://hrportal.company.com/reviews (due dec 15)","0"
+"(no subject)","walmart account locked: suspicious login attempt detected. unlock: http://walmart-secure[.]site/ref789 | case id: wm-112233","1"
+"(no subject)","new data governance policy published: https://compliance.company.com/data-policy (digital signature required)","0"
+"(no subject)","dropbox storage exceeded: upgrade plan now at http://dbx-upgrade[.]online/user123 | files will be deleted","1"
+"(no subject)","updated brand guidelines pdf: https://marketing.company.com/branding/2023 (watermarked copies only)","0"
+"(no subject)","best buy reward points expiring: redeem now at http://bestbuy-rewards[.]cc/ref456 | 250 points available","1"
+"(no subject)","new customer onboarding checklist: https://confluence.company.com/onboarding/checklist-v2","0"
+"(no subject)","us bank tax form alert: verify 1099-int details at http://usbank-tax[.]info/ref654 | ref: usb-112233","1"
+"(no subject)","q4 budget planning spreadsheet locked for edits. final version: https://finance.company.com/budget/q4","0"
+"(no subject)","apple gift card scam warning: learn more at http://apple-scam-alert[.]net/ref987 | case id: apl-445566","1"
+"(no subject)","updated disaster recovery plan: https://itportal.company.com/drp (restricted access)","0"
+"(no subject)","walgreens prescription ready: confirm insurance at http://walgreens-pharmacy[.]cc/ref321 | rx #wag-778899","1"
+"(no subject)","new employee directory launched: https://intranet.company.com/people (sso required)","0"
+"(no subject)","capital one credit line increase: accept offer at http://capitalone-offer[.]site/ref654 | expires in 6h","1"
+"(no subject)","updated software development lifecycle doc: https://confluence.company.com/sdlc/2023","0"
+"(no subject)","home depot order verification: confirm $1,299 purchase at http://homedepot-orders[.]info/ref789 | order #hd-112233","1"
+"(no subject)","new customer feedback dashboard: https://bi.company.com/customer-satisfaction (vpn required)","0"
+"(no subject)","mcafee auto-renewal failed: update payment at http://mcafee-billing[.]net/ref456 | protection disabled","1"
+"(no subject)","annual ethics training module available: https://lms.company.com/courses/ethics-2023 (due dec 31)","0"
+"(no subject)","social media policy update: acknowledge at http://company-policy[.]info/ref654 | hr case #pol-112233","1"
+"(no subject)","new product roadmap published: https://product.company.com/roadmap (nda required)","0"
+"(no subject)","walmart+ membership expired: renew now at http://walmart-plus[.]cc/ref321 | benefits suspended","1"
+"(no subject)","updated incident report template: https://security.company.com/incidents (restricted to l2+ staff)","0"
+"(no subject)","amazon account suspended: verify $2,999 purchase at http://amazon-account[.]info/ref987 | transaction id: amzn-445566","1"
+"(no subject)","monthly engineering all-hands recording posted: https://video.company.com/playback/eng-nov2023","0"
+"(no subject)","dear account holder,  our fraud detection system has flagged suspicious activity on your bank of america account (#xxxx-5678). three login attempts from unrecognized devices in kyiv, ukraine were detected within the past 2 hours.   to protect your account, we've temporarily restricted access. **immediate action is required**: 1. verify recent transactions at: http://bofa-secure-update[.]com/alert?id=12345 2. confirm your identity using this temporary portal: http://boa-identity-confirm[.]net/user@email.com 3. reset your password through our secure validation system  failure to complete these steps within 12 hours will result in permanent account closure per section 4.2 of our security policy. note that our support team will never ask for your full ssn or pin via email.  sincerely, bank of america security team -------------------------------------------------------------- this is an automated message - do not reply to this email","1"
+"(no subject)","hello mark johnson,  thank you for submitting your expense report for the denver conference (submission id: exp-23456). here's what happens next:  1. **review process**: the finance team will verify receipts against our travel policy (v3.1) by november 15 2. **payment timeline**: approved expenses will be processed in the next payroll cycle (november 30 direct deposit) 3. **documentation**: download your submission pdf here: https://company-expenseportal.com/reports/2023/exp-23456  **required action**:  - confirm your banking details in workday by november 10 - email receipts@company.com if any hotel charges exceed $275/night cap  for questions, contact: - finance team: ext. 4567 - workday support: ext. 3344  best regards, janet lee accounts payable specialist company name, inc. -------------------------------------------------------------- confidentiality notice: this email contains privileged information","0"
+"(no subject)","urgent: amazon prime membership suspension  dear valued customer,  your amazon prime membership (id: ap-9876-543) will be terminated in 24 hours due to unresolved billing issues. we attempted to charge your visa ending in **1234** on october 31, 2023, but the transaction failed multiple times.  **immediate resolution required**: - update payment method: http://amazon-payment-update[.]cc/user123 - verify account ownership: http://amazon-verification-portal[.]site/ref789 - contact our fraud prevention team: 1-888-555-1234 (toll-free)  **warning**: failure to resolve this will result in: - loss of prime benefits - cancellation of pending orders - account termination per terms of service §7.2  this is your final notice before membership cancellation. our automated system shows 3 previous attempts to contact you.  sincerely, amazon prime billing department -------------------------------------------------------------- this is an automated message - do not reply","1"
+"(no subject)","team,  attached is the q4 cybersecurity training schedule:  **key dates**: - module 1 (phishing awareness): nov 6-10 - module 2 (password hygiene): nov 13-17 - module 3 (data handling): nov 20-24  **access instructions**: 1. log in to the lms portal: https://lms.company.com/cybertraining2023 2. complete modules by 5 pm pst each friday 3. score 80%+ to fulfill compliance requirements  **new features**: - interactive phishing simulations - updated pci dss 4.0 content - mobile-friendly training modules  **support**: - lms technical issues: it helpdesk ext. 5555 - content questions: security-training@company.com  completion certificates must be uploaded to workday by december 1. managers will receive weekly progress reports.  best, sarah thompson chief information security officer -------------------------------------------------------------- confidential: for internal use only","0"
+"(no subject)","final warning: social security number suspension  dear citizen,  the social security administration (ssa) has detected illegal activity associated with ssn xxx-xx-6789. criminal entities in mexico attempted to open credit lines using your identity on october 28, 2023.  **you must**: 1. validate your ssn immediately: http://ssa-protection[.]us/validate?id=12345 2. download irs form 14039: http://ssa-identity-theft[.]cc/forms 3. call our 24/7 fraud hotline: 1-800-555-0199  **failure to comply within 6 hours will result in**: - permanent ssn suspension - irs tax refund withholding - credit report freeze  this is your final notice. law enforcement has been notified of potential identity theft crimes under 18 u.s. code § 1028.  sincerely, michael johnson ssa fraud prevention unit -------------------------------------------------------------- official u.s. government communication","1"
+"(no subject)","hi emily,  here are the details for tomorrow's client presentation:  **event**: acme corp quarterly review **time**: november 8, 2:30-4:00 pm est **location**: conference room b / zoom (backup) **zoom link**: https://company.zoom.us/j/123456789?pwd=abcdefghijklmnopqrstuvwx  **presentation materials**: 1. slide deck: https://company.sharepoint.com/sites/acme/presentation.pptx 2. financial models: \\\\fileserver\projects\acme\q4_models 3. competitor analysis: attached pdf (confidential)  **prep checklist**: ☐ review latest sales figures (tableau dashboard: https://bi.company.com/sales/q4) ☐ coordinate with legal on slide 12 disclosures ☐ test av equipment at 1:00 pm  let me know if you need help with: - printing handouts (contact facilities@company.com) - technical rehearsals - client bios  best, david chen account manager -------------------------------------------------------------- confidential: contains non-public information","0"
+"(no subject)","attention: microsoft azure security breach  dear system administrator,  our security team detected unauthorized access to your azure tenant (id: az-1234-5678) from an ip address in north korea. the intruder attempted to modify iam roles and export sensitive data.  **critical action required**: 1. immediately review activity logs: http://azure-security-alert[.]com/tenant123 2. reset all admin credentials: http://microsoft-credentials-reset[.]net/ref456 3. validate mfa settings: http://azure-mfa-confirm[.]site/user@email.com  **consequences of inaction**: - potential gdpr violations ($20m+ fines) - data exfiltration within 24 hours - service termination per microsoft sla §12.7  this security incident has been escalated to level 3 severity. our automated system shows this is your second notification.  sincerely, microsoft azure security team -------------------------------------------------------------- do not reply - this is an automated alert","1"
+"(no subject)","all engineering staff,  the post-mortem report for yesterday's api outage (incident id: api-1029) is now available:  **root cause**: cascading failure in authentication service during peak load **impact**: 92-minute downtime affecting 23% of users **resolution**: - scaled up kubernetes pods from 10 to 25 - implemented circuit breaker pattern - updated auto-scaling thresholds  **action items**: 1. review full report: https://confluence.company.com/incidents/api-1029 2. attend lessons-learned meeting: nov 10, 10 am pst 3. update service dependencies by nov 15  **new monitoring**: - added prometheus alerts for jwt validation latency - configured grafana dashboard 'api health v2' - enhanced splunk logging for auth service  please acknowledge receipt and provide feedback via: - slack: #engineering-postmortems - email: sre-team@company.com  regards, linda martinez site reliability engineering lead -------------------------------------------------------------- internal use only","0"
