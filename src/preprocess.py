@@ -29,15 +29,10 @@ def clean_csv(file_path):
     
 
 # Ensure these columns exist, creating them if they're missing
-    for col in ["sender", "subject", "receiver", "date", "label", "body"]:
+    for col in ["subject", "body", "label"]:
         if col not in df.columns:
-            df[col] = None  # or some default string
+            df[col] = None  # creates thew column with no values
 
-    # "fillna" won't fail, because the columns definitely exist
-    df["sender"] = df["sender"].fillna("(unknown sender)")
-    df["subject"] = df["subject"].fillna("(no subject)")
-    df["receiver"] = df["receiver"].fillna("(unknown receiver)")
-    df["date"] = df["date"].fillna("(unknown date)")
 
     # Drop rows with missing label or body
     df.dropna(subset=["label", "body"], inplace=True)
