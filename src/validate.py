@@ -10,7 +10,7 @@ from sklearn.metrics import classification_report, accuracy_score, confusion_mat
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 
-def evaluate_model(model, data_path, model_name):
+def validate_model(model, data_path, model_name):
     tokenizer = get_tokenizer(model_name)
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model.to(device)
@@ -126,7 +126,7 @@ if __name__ == "__main__":
             model_path,
             local_files_only=True
         )
-        evaluate_model(
+        validate_model(
             model=model,
             data_path=data_path,
             model_name=model_name
