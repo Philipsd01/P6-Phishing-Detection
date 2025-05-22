@@ -17,13 +17,12 @@ def clean_csv(file_path):
     # Rename columns if necessary
     rename_map = {
         "SubjectLine": "subject",
-        "ReceivedDate": "date",
         "EmailBody": "body",
         "Email Text": "body",
-        "Category": "label",
-        "Email Type": "label",
         "Message": "body",
         "text": "body",
+        "Category": "label",
+        "Email Type": "label",
         "spam": "label"
     }
     df = df.rename(columns=rename_map)

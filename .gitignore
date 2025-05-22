@@ -2,3 +2,4 @@ models/
 model/
 __pycache__/
 *.pyc
+src/predict.py

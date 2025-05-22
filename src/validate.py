@@ -52,7 +52,7 @@ def evaluate_model(model, data_path, model_name):
 
 
 
-    # Compute classification metrics and print custom table (excluding macro and weighted averages).
+    # Compute classification metrics
     metrics = classification_report(
         all_labels, all_preds, labels=[0, 1], digits=4, output_dict=True
     )

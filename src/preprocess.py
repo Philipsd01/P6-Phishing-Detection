@@ -10,7 +10,7 @@ def clean_csv(file_path):
     
     df = pd.read_csv(file_path, engine='python', on_bad_lines='skip')
     
-    # Rename of columns (adjust to match every dataset)
+    # Rename of columns (adjust/add to match every dataset)
     rename_map = {
         "MessageID": "id",
         "SubjectLine": "subject",
@@ -23,7 +23,6 @@ def clean_csv(file_path):
         "Email Type": "label",
         "Category": "label",
         "Message": "body"
-        # etc...
     }
     df = df.rename(columns=rename_map)
     
@@ -37,7 +36,9 @@ def clean_csv(file_path):
     # Drop rows with missing label or body
     df.dropna(subset=["label", "body"], inplace=True)
     # Drop columns that are not needed
-    columns_to_drop = ["Unnamed: 0", "urls", "sender", "receiver", "date"] # Add more columns to drop if needed
+    columns_to_drop = [
+        "Unnamed: 0", "urls", "sender", "receiver", "date"
+        ] # Add more columns to drop if needed
     for col in columns_to_drop:
         if col in df.columns:
             df.drop(col, axis=1, inplace=True)
@@ -47,11 +48,12 @@ def clean_csv(file_path):
     if "subject" in df.columns:
         df["subject"] = (
             df["subject"]
-            .astype(str)                            # Ensure it’s string
+            .astype(str)                            # Ensure it’s a string
             .str.lower()                            # Convert to lowercase
             .str.strip()                            # Remove leading/trailing whitespace
             .str.replace('\n', ' ', regex=True)     # Replace newlines with a space
         )
+    # Repeat for body
     if "body" in df.columns:
         df["body"] = (
             df["body"]
@@ -74,11 +76,12 @@ def clean_csv(file_path):
         # etc...
     }
 
-    if "label" in df.columns:
-        df["label"] = df["label"].map(label_map).fillna(df["label"])
+    if "label" in df.columns: 
         # fillna() to keep unknown labels as-is or re-map them
-    df["label"] = pd.to_numeric(df["label"], errors="coerce")  # Convert "1.0" -> 1.0 float
-    df["label"] = df["label"].astype("Int64")                  # or int if you're sure there are no NaNs
+        df["label"] = df["label"].map(label_map).fillna(df["label"])
+    # Convert to numeric, coercing errors to NaN
+    df["label"] = pd.to_numeric(df["label"], errors="coerce")  
+    df["label"] = df["label"].astype("Int64")                  
 
 
     # Ensure consistent column order
@@ -100,7 +103,7 @@ for file_path in csv_files:
         base_name = os.path.basename(file_path)        # Extracts the filename from the path
         name_no_ext = os.path.splitext(base_name)[0]   # Removes the file extension
         cleaned_name = f"{name_no_ext}_cleaned.csv"    # Adds a new file extension to the filename
-        output_path = os.path.join('data/processed_data/', cleaned_name) # Combines the new filename with a directory
+        output_path = os.path.join('data/processed_data/', cleaned_name) # Combines the new filename with directory
 
         cleaned_df.to_csv(output_path, index=False, quoting=csv.QUOTE_ALL) # Save the cleaned DataFrame to a new CSV file putting all fields in quotes
         print(f"Saved cleaned file to {output_path}")
@@ -109,7 +112,7 @@ for file_path in csv_files:
 
 print("Done!")
 
-# --- Create Combined Sample file ---
+# --- Create Combined Sample file: ---
 # Get list of all cleaned CSV files
 processed_files = glob.glob('data/validation/cleaned/*_cleaned.csv')
 combined_samples = []
@@ -120,13 +123,12 @@ for file_path in processed_files:
     print(f"Sampling {sampling_fraction*100}% from {file_path}")
     try:
         df = pd.read_csv(file_path)
-        # Ensure the "label" column is formatted as integer (1 and 0)
         if "label" in df.columns:
             # Drop rows where label is NA to avoid non-finite values when converting to int
             df = df.dropna(subset=["label"])
             # First convert to float and then to int (in case the column is read as float)
             df["label"] = df["label"].astype(float).astype(int)
-        # Take a random sample from each file 
+        # Take a the sample from each file in a random way
         sample_df = df.sample(frac=sampling_fraction, random_state=42)
         combined_samples.append(sample_df)
     except Exception as e:
@@ -143,20 +145,13 @@ else:
     print("No samples were created.")
 
 
+# Loads a CSV file and returns a DataFrame with only 'text' and 'label' columns.
 def load_and_prepare_data(csv_path):
-    """
-    Loads a CSV file and returns a DataFrame with 'text' and 'label' columns.
-    Combines 'subject' and 'body' into a single 'text' column.
-    """
     df = pd.read_csv(csv_path)
-    
     # Clean NaNs if needed
     df.dropna(subset=["subject", "body", "label"], inplace=True)
-
     # Combine subject and body
     df['text'] = df['subject'] + " " + df['body']
-    
     # Ensure label is integer
     df['label'] = df['label'].astype(int)
-
     return df[['text', 'label']]

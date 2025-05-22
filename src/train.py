@@ -30,17 +30,17 @@ def compute_metrics(eval_pred):
 
     #Change learning rate and epochs here:
 def train_model(model_variant, learning_rate=6e-5, epochs=4):
-    # Dynamic output dir based on params + timestamp
+    # Dynamic output directory based on params + timestamp
     timestamp = datetime.now().strftime("%m%d-%H%M")
     model_name = f"{model_variant}_lr{learning_rate}_ep{epochs}_{timestamp}"
     output_dir = f"models/{model_name}"
     os.makedirs(output_dir, exist_ok=True)
 
-    # Load and prepare data
+    # Load and prepare data from CSV
     df = load_and_prepare_data('data/processed_data/combined_cleaned_sample.csv')
     dataset = convert_to_dataset(df)
 
-    # Tokenize
+    # Tokenize using tokenizer from the model variant
     tokenizer = get_tokenizer(model_variant)
     tokenized_dataset = tokenize_dataset(dataset, tokenizer)
     tokenized_dataset = tokenized_dataset.train_test_split(test_size=0.2)
@@ -51,7 +51,7 @@ def train_model(model_variant, learning_rate=6e-5, epochs=4):
     # Load model
     model = AutoModelForSequenceClassification.from_pretrained(model_variant, num_labels=2)
 
-    # Training setup
+    # Training setup / Hyperparameters
     training_args = TrainingArguments(
         output_dir=output_dir,
         learning_rate=learning_rate,
@@ -70,7 +70,7 @@ def train_model(model_variant, learning_rate=6e-5, epochs=4):
 
     os.makedirs(training_args.logging_dir, exist_ok=True)
 
-    # Print initial training arguments
+    # Print initial training arguments for logging
     print("Training arguments:")
     print(f"Learning Rate: {training_args.learning_rate}")
     print(f"Epochs: {training_args.num_train_epochs}")
