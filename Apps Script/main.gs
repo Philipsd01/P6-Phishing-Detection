@@ -2,7 +2,7 @@
 
 // Use the endpoint confirmed from your ngrok forward
 const LOCAL_API_ENDPOINT =
-  "https://19d3-2a02-aa7-465c-175e-29f6-bf4d-5efc-7f90.ngrok-free.app/predict"; // Make sure this is your CURRENT ngrok URL
+  "https://19d3-2a02-aa7-465c-175e-29f6-bf4d-5efc-7f90.ngrok-free.app/predict"; // Make sure this is your CURRENT ngrok URL followed by /predict
 
 /**
  * Builds the card shown when the add-on is opened without email context (Homepage).
