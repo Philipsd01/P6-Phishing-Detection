@@ -1,4 +1,6 @@
 data/
+Apps Script/
+validation/
 models/
 notebooks/
 .venv
